@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Hrishaan Neelam - Web Developer & Tech Builder. Showcasing innovative web development and robotics projects.">
+    <title>Hrishaan Neelam | Web Developer & Tech Builder</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Dark mode transitions */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stagger animation delays */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+
+        /* Fade-in animation for scroll */
+        .fade-in-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Project card hover effect */
+        .project-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Skill card hover effect */
+        .skill-card {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .skill-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px) !important;
+        }
+
+        /* Service card hover effect */
+        .service-card {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-4px) !important;
+        }
+
+        /* Dark mode shadow adjustments */
+        html.dark .project-card:hover,
+        html.dark .skill-card:hover,
+        html.dark .service-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Hamburger menu styles */
+        .mobile-menu {
+            display: none;
+        }
+
+        .mobile-menu.active {
+            display: block;
+        }
+
+        /* Hide desktop menu on mobile */
+        @media (max-width: 767px) {
+            .desktop-menu {
+                display: none !important;
+            }
+        }
+
+        /* Hide mobile menu button on desktop */
+        @media (min-width: 768px) {
+            #mobile-menu-button {
+                display: none;
+            }
+            #theme-toggle-mobile {
+                display: none;
+            }
+        }
+
+        /* Button hover effects */
+        .btn-primary {
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+        }
+
+        /* Dark mode styles */
+        html.dark {
+            background-color: #0f172a;
+            color: #e2e8f0;
+        }
+
+        html.dark body {
+            background-color: #0f172a;
+        }
+
+        /* Form input dark mode */
+        html.dark input,
+        html.dark textarea {
+            background-color: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+
+        html.dark input:focus,
+        html.dark textarea:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-gray-100">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full bg-white shadow-md z-50 dark:bg-gray-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- EDIT: Your name/logo -->
+                <div class="text-2xl font-bold text-blue-600"><a href="#hero">HN</a></div>
+                
+                <!-- Desktop Menu -->
+                <div class="desktop-menu flex items-center space-x-6">
+                    <!-- Navigation Links -->
+                    <a href="#about" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">About</a>
+                    <a href="#services" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Services</a>
+                    <a href="#projects" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Projects</a>
+                    <a href="#contact" class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Contact</a>
+                    
+                    <!-- Dark Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+                        <svg id="theme-toggle-dark-icon" class="w-6 h-6 text-gray-800 dark:text-gray-200 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon" class="w-6 h-6 text-yellow-500 dark:text-yellow-400 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button & Dark Mode Toggle -->
+                <div class="md:hidden flex items-center space-x-2">
+                    <!-- Dark Mode Toggle (Mobile) -->
+                    <button id="theme-toggle-mobile" class="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors" aria-label="Toggle dark mode">
+                        <svg id="theme-toggle-dark-icon-mobile" class="w-6 h-6 text-gray-800 dark:text-gray-200 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+                        </svg>
+                        <svg id="theme-toggle-light-icon-mobile" class="w-6 h-6 text-yellow-500 dark:text-yellow-400 hidden" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+                        </svg>
+                    </button>
+
+                    <!-- Hamburger Button -->
+                    <button id="mobile-menu-button" class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition" aria-label="Toggle menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="mobile-menu md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#about" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition py-2">About</a>
+                <a href="#services" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition py-2">Services</a>
+                <a href="#projects" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition py-2">Projects</a>
+                <a href="#contact" class="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center">
+                <!-- EDIT: Your name -->
+                <h1 class="text-5xl sm:text-6xl font-bold text-gray-900 dark:text-white mb-4 fade-in">
+                    Hrishaan Neelam
+                </h1>
+                
+                <!-- EDIT: Your role/title -->
+                <p class="text-xl sm:text-2xl text-blue-600 dark:text-blue-400 mb-6 fade-in delay-100">
+                    Web Developer & Tech Builder
+                </p>
+                
+                <!-- EDIT: Your intro paragraph -->
+                <p class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8 fade-in delay-200">
+                    I'm passionate about building innovative web applications and exploring cutting-edge technology. 
+                    With expertise in full-stack development, robotics, and modern web frameworks, I create digital 
+                    experiences that are both beautiful and functional.
+                </p>
+                
+                <div class="flex justify-center space-x-4 fade-in delay-300">
+                    <a href="#projects" class="btn-primary bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                        View My Work
+                    </a>
+                    <a href="#contact" class="border-2 border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-slate-800">
+                        Get In Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-800">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">About Me</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- EDIT: Skills - modify these cards with your actual skills -->
+                <div class="skill-card p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-slate-700">
+                    <div class="text-blue-600 text-3xl mb-4">💻</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Web Development</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Expert in HTML, CSS, JavaScript, and modern frameworks like React and Vue. Building responsive, 
+                        fast, and accessible websites.
+                    </p>
+                </div>
+                
+                <div class="skill-card p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-slate-700">
+                    <div class="text-blue-600 text-3xl mb-4">🤖</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Robotics</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Passionate about robotics and automation. Experience with Arduino, Rev Robotics, and IoT projects 
+                        that bridge hardware and software. Programming in Java and Python.
+                    </p>
+                </div>
+                
+                <div class="skill-card p-6 border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-slate-700">
+                    <div class="text-blue-600 text-3xl mb-4">⚡</div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Tech Innovation</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Always exploring new technologies. From AI/ML to blockchain, I love learning and implementing 
+                        emerging tech solutions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-slate-900">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">What I Offer</h2>
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
+                From concept to launch, I provide end-to-end solutions for your digital needs.
+            </p>
+            
+            <!-- Guarantee Badge -->
+            <div class="bg-blue-600 dark:bg-blue-700 text-white rounded-lg p-6 mb-12 text-center max-w-3xl mx-auto shadow-lg">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <span class="text-3xl">⚡</span>
+                    <h3 class="text-2xl font-bold">Fast Turnaround Guarantee</h3>
+                    <span class="text-3xl">⚡</span>
+                </div>
+                <p class="text-lg">
+                    Get your project delivered with guaranteed results in just <span class="font-bold text-yellow-300">one week</span> or less!
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- EDIT: Service 1 -->
+                <div class="service-card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                    <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-3xl">🎨</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Website Design & Development</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Custom-built, responsive websites tailored to your brand. Fast, modern, and mobile-friendly designs that stand out.
+                    </p>
+                </div>
+
+                <!-- EDIT: Service 2 -->
+                <div class="service-card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                    <div class="w-14 h-14 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-3xl">🔄</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Website Redesign & Optimization</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Breathe new life into your existing site. Performance improvements, modern UI/UX, and better user engagement.
+                    </p>
+                </div>
+
+                <!-- EDIT: Service 3 -->
+                <div class="service-card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                    <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-3xl">⚙️</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Custom Tech Projects</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Unique solutions for unique problems. From web apps to automation tools, I build what you need.
+                    </p>
+                </div>
+
+                <!-- EDIT: Service 4 -->
+                <div class="service-card bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                    <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center mb-4">
+                        <span class="text-3xl">🤖</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3 text-gray-900 dark:text-white">Robotics & Engineering Websites</h3>
+                    <p class="text-gray-600 dark:text-gray-300">
+                        Specialized sites for tech teams, robotics clubs, and engineering projects. Showcase your innovations professionally.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-800">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-900 dark:text-white">My Projects</h2>
+            
+            <!-- Dynamic grid: Expands to fill space with any number of projects -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- EDIT: Project 1 - Replace with your actual project -->
+                <div class="project-card bg-gray-50 dark:bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+                    <!-- EDIT: Replace with your project image URL -->
+                    <div class="h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center flex-shrink-0">
+                        <span class="text-white text-6xl">🌐</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <!-- EDIT: Project title -->
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Robotics Team Portfolio Website</h3>
+                        <!-- EDIT: Project description -->
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+                            A full website made for my robotics team that is made with HTML, Tailwind, and JavaScript.
+                        </p>
+                        <!-- EDIT: Project link -->
+                        <a href="https://ftc28874.apexmakerclub.org" target="_blank" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold inline-flex items-center mt-auto">
+                            View Project →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- EDIT: Project 2 - Replace with your actual project -->
+                <div class="project-card bg-gray-50 dark:bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+                    <!-- EDIT: Replace with your project image URL -->
+                    <div class="h-48 bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center flex-shrink-0">
+                        <span class="text-white text-6xl">🤖</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <!-- EDIT: Project title -->
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Robotics Controller</h3>
+                        <!-- EDIT: Project description -->
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+                            Programming for competition-ready robots for robotics.
+                        </p>
+                        <!-- EDIT: Project link -->
+                        <a href="https://github.com/FTC28874/Decode2025" target="_blank" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold inline-flex items-centers mt-auto">
+                            View Project →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- EDIT: Add more projects below by copying the card structure above -->
+                <!-- When you add a 3rd project, you can change the grid to lg:grid-cols-3 if desired -->
+                <!-- Example Project 3 (uncomment and edit when you have a new project):
+                <div class="project-card bg-gray-50 dark:bg-slate-700 rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+                    <div class="h-48 bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center flex-shrink-0">
+                        <span class="text-white text-6xl">📱</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Your Project Title</h3>
+                        <p class="text-gray-600 dark:text-gray-300 mb-4 flex-grow">
+                            Your project description goes here.
+                        </p>
+                        <a href="#" target="_blank" class="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold inline-flex items-center mt-auto">
+                            View Project →
+                        </a>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-4 sm:px-6 lg:px-8 bg-gray-100 dark:bg-slate-900">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4 text-gray-900 dark:text-white">Get In Touch</h2>
+            <p class="text-center text-gray-600 dark:text-gray-300 mb-12">
+                Have a project in mind? Let's work together to bring your ideas to life.
+            </p>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div>
+                    <!-- EDIT: Replace YOUR_FORMSPREE_ID with your actual Formspree form ID -->
+                    <!-- Get it from https://formspree.io after signing up -->
+                    <form id="contact-form" action="https://formspree.io/f/mwpwnrge" method="POST" class="space-y-4">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Name</label>
+                            <input type="text" id="name" name="name" required 
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white">
+                        </div>
+                        
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                            <input type="email" id="email" name="email" required 
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white">
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message</label>
+                            <textarea id="message" name="message" rows="4" required 
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-white"></textarea>
+                        </div>
+                        
+                        <!-- Hidden field to track form submissions -->
+                        <input type="hidden" name="_subject" value="New Portfolio Contact Form Submission">
+                        <input type="hidden" name="_next" value="#contact">
+                        
+                        <button type="submit" class="w-full btn-primary bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700">
+                            Send Message
+                        </button>
+                    </form>
+                    
+                    <div id="form-success" class="hidden mt-4 p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-200 rounded-lg">
+                        Thank you! Your message has been sent successfully.
+                    </div>
+                </div>
+                
+                <!-- Contact Info -->
+                <div class="flex flex-col justify-center space-y-6">
+                    <!-- EDIT: Your email address -->
+                    <div class="flex items-start space-x-4">
+                        <div class="text-blue-600 text-2xl">📧</div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-gray-900 dark:text-white">Email</h3>
+                            <a href="mailto:hrishaan.neelam@gmail.com" target="_blank" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+                                hrishaan.neelam@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- EDIT: Your social media links (optional) -->
+                    <div class="flex items-start space-x-4">
+                        <div class="text-blue-600 text-2xl">🔗</div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-gray-900 dark:text-white">Connect</h3>
+                            <div class="space-x-4">
+                                <a href="https://github.com/Hrishaan1" target="_blank" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">GitHub</a>
+                                <a href="https://www.linkedin.com/in/hrishaan-n-6b4853347/" target="_blank" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">LinkedIn</a>
+                                <a href="https://www.instagram.com/hrishaan.n/" target="_blank" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">Instagram</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- EDIT: Your location (optional) -->
+                    <div class="flex items-start space-x-4">
+                        <div class="text-blue-600 text-2xl">📍</div>
+                        <div>
+                            <h3 class="font-semibold mb-1 text-gray-900 dark:text-white">Location</h3>
+                            <p class="text-gray-600 dark:text-gray-300">Available for remote work worldwide</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <!-- EDIT: Your name and copyright year -->
+            <p>&copy; 2025 Hrishaan Neelam. All rights reserved.</p>
+            <p class="text-gray-400 mt-2">Built with HTML, TailwindCSS, and ❤️</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+            });
+        });
+
+        // Dark Mode Toggle (Desktop)
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+        
+        // Dark Mode Toggle (Mobile)
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const darkIconMobile = document.getElementById('theme-toggle-dark-icon-mobile');
+        const lightIconMobile = document.getElementById('theme-toggle-light-icon-mobile');
+        
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        
+        function updateThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                // Show moon icons
+                darkIcon.classList.remove('hidden');
+                lightIcon.classList.add('hidden');
+                darkIconMobile.classList.remove('hidden');
+                lightIconMobile.classList.add('hidden');
+            } else {
+                // Show sun icons
+                darkIcon.classList.add('hidden');
+                lightIcon.classList.remove('hidden');
+                darkIconMobile.classList.add('hidden');
+                lightIconMobile.classList.remove('hidden');
+            }
+        }
+        
+        if (currentTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+        }
+        updateThemeIcons();
+        
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            
+            if (document.documentElement.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+            } else {
+                localStorage.setItem('theme', 'light');
+            }
+            updateThemeIcons();
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Contact Form Handling - Now using Formspree
+        // The form will submit directly to Formspree
+        // No additional JavaScript needed - Formspree handles everything!
+
+        // Intersection Observer for fade-in animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all project cards and skill cards
+        document.querySelectorAll('.project-card, .skill-card, .service-card').forEach(el => {
+            el.classList.add('fade-in-scroll');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
